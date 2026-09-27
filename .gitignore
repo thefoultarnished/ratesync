@@ -1,0 +1,27 @@
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Node (used for icon generation only, not needed for extension)
+node_modules/
+package.json
+package-lock.json
+
+# Dev files
+AGENTS.md
+agents.md
+docs/
+
+# Root build packages (zipped distribution lives in builds/)
+/*.zip
+

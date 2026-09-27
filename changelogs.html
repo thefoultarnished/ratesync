@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RateSync — Changelog</title>
+<style>
+  :root {
+    --bg:      #0b0e14;
+    --border:  #1f2530;
+    --amber:   #f5a623;
+    --red:     #ef4444;
+    --text:    #e8eaee;
+    --text-2:  #9aa3b2;
+    --text-3:  #626b7a;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 64px 24px 100px;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 56px;
+  }
+
+  header p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 28px;
+    padding: 36px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .entry:first-of-type { border-top: none; padding-top: 0; }
+
+  .entry-meta {
+    padding-top: 2px;
+  }
+
+  .version-num {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  .entry-date {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 4px;
+  }
+
+  .lede {
+    color: var(--text-2);
+    max-width: 56ch;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+    margin: 22px 0 8px;
+  }
+
+  .entry > .entry-body > h2:first-child { margin-top: 0; }
+
+  ul {
+    list-style: none;
+  }
+
+  ul li {
+    position: relative;
+    padding-left: 14px;
+    color: var(--text-2);
+    margin-bottom: 7px;
+  }
+
+  ul li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--text-3);
+  }
+
+  ul li b, ul li strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  ol {
+    counter-reset: step;
+    list-style: none;
+  }
+
+  ol li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-2);
+    margin-bottom: 7px;
+  }
+
+  ol li::before {
+    content: counter(step) ".";
+    position: absolute;
+    left: 0;
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+
+  .fix {
+    border-left: 2px solid var(--red);
+    padding: 2px 0 2px 14px;
+    margin: 20px 0;
+    color: var(--text-2);
+  }
+
+  .fix b {
+    display: block;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 3px;
+  }
+
+  .fine {
+    font-size: 12.5px;
+    color: var(--text-3);
+    margin-top: 18px;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--text);
+  }
+
+  @media (max-width: 520px) {
+    body { padding: 40px 18px 80px; }
+    .entry { grid-template-columns: 1fr; gap: 8px; }
+    .entry-date { margin-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <p>RATESYNC</p>
+    <h1>Changelog</h1>
+  </header>
+
+  <!-- ============ v2.0.0 ============ -->
+  <div class="entry">
+    <div class="entry-meta">
+      <div class="version-num">2.0.0</div>
+      <div class="entry-date">Sep 27, 2026</div>
+    </div>
+    <div class="entry-body">
+      <p class="lede">A faster, quieter sync path, visible on-page feedback for every rating, and support for Letterboxd's current star-rating widget.</p>
+
+      <div class="fix">
+        <b>Fixed</b>
+        A change on IMDb's side started rejecting sync requests with a 4XX error, silently failing every sync. RateSync now sends the header IMDb's own site sends, so submissions go through again.
+      </div>
+
+      <h2>Added</h2>
+      <ul>
+        <li>Ratings are now submitted to IMDb directly in the background first — no tab needed in the common case. The tab-based method still runs automatically as a fallback (can be turned off in Settings)</li>
+        <li>Support for Letterboxd's current film-page star widget, not just the classic rating form and the log/diary dialog</li>
+        <li>On-page toasts confirm each stage on Letterboxd itself — <em>"IMDb sync initiated"</em>, then <em>"IMDb rating synced"</em> or the exact failure reason (can be turned off in Settings)</li>
+        <li>A failed sync is retried automatically once, 5 seconds later, before anything is reported as failed</li>
+        <li>Inline <b>Retry</b> button on any failed sync in the popup log</li>
+        <li><b>TMDb lookup</b> is now an explicit toggle, and accepts either a v4 Read Access Token or a 32-character v3 API key</li>
+        <li>Feedback link in the popup for reporting a broken sync</li>
+      </ul>
+
+      <h2>Improved</h2>
+      <ul>
+        <li>Popup UI polish: custom dropdown filter, system fonts throughout (no more bundled font files)</li>
+        <li>IMDb login indicator and general layout refinements</li>
+        <li>Shared, self-closing background tab for the fallback path — never lingers, never opens more than one at a time</li>
+      </ul>
+
+      <p class="fine">Un-rating still isn't synced, and an IMDb rating is always fully overwritten by the latest Letterboxd rating — same as v1.5.0.</p>
+    </div>
+  </div>
+
+  <!-- ============ v1.5.0 ============ -->
+  <div class="entry">
+    <div class="entry-meta">
+      <div class="version-num">1.5.0</div>
+      <div class="entry-date">Apr 23, 2026</div>
+    </div>
+    <div class="entry-body">
+      <p class="lede">RateSync bridges Letterboxd and IMDb — the two most popular film platforms — so you never have to rate a film twice. The moment you rate a film on Letterboxd, RateSync automatically submits the same rating to your IMDb account in the background. No extra clicks, no switching tabs, no copy-pasting. Just rate once and you're done on both.</p>
+
+      <h2>How it works</h2>
+      <ol>
+        <li>You rate a film on Letterboxd (from the film page or the log/diary dialog)</li>
+        <li>RateSync detects the rating in the background</li>
+        <li>It looks up the film's IMDb ID via Letterboxd's film data</li>
+        <li>It submits the equivalent rating to IMDb using your existing IMDb session</li>
+        <li>The sync is logged in the extension popup — green for success, red for failure</li>
+      </ol>
+      <p class="fine">Letterboxd's 5-star scale (0.5 increments) is converted to IMDb's 10-point scale automatically.</p>
+
+      <h2>Features</h2>
+      <ul>
+        <li><b>Automatic</b> — works silently in the background, no interaction needed</li>
+        <li><b>Sync log</b> — view your recent syncs with film title, star rating, and timestamp</li>
+        <li><b>Stats bar</b> — see total synced, success rate, and average rating at a glance</li>
+        <li><b>Filters</b> — show only failed syncs or only unique films</li>
+        <li><b>Auto-open</b> — optionally open the IMDb page after each sync</li>
+        <li><b>TMDb fallback</b> — if Letterboxd doesn't carry a direct IMDb link, RateSync falls back to TMDb to resolve it (requires a free TMDb API token)</li>
+        <li><b>Login detection</b> — the status pill in the header shows your IMDb connection state at a glance</li>
+      </ul>
+
+      <h2>Requirements</h2>
+      <ul>
+        <li><b>A Letterboxd account</b> — free</li>
+        <li><b>An IMDb account</b> — free, must be logged in on the same browser profile</li>
+        <li><b>A TMDb API Read Access Token</b> — free, only needed for films where Letterboxd doesn't carry a direct IMDb link</li>
+      </ul>
+
+      <h2>Privacy &amp; security</h2>
+      <ul>
+        <li>No accounts, no servers — RateSync runs entirely in your browser. No data is sent to any third-party server other than IMDb and TMDb (which is the entire point of the extension)</li>
+        <li>Your TMDb token is stored locally on your device in Chrome's extension storage and is only ever sent to TMDb to look up film IDs</li>
+        <li>Your IMDb session is used directly to submit ratings via IMDb's GraphQL API — the same session your browser already has. RateSync does not store or transmit your IMDb credentials anywhere</li>
+        <li>No analytics, no tracking, no ads</li>
+      </ul>
+
+      <p class="fine">Disclaimer — this extension does not collect any data and is not affiliated with Letterboxd or IMDb.</p>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
